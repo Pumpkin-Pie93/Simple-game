@@ -1,0 +1,13 @@
+{
+  "name": "game-js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "jest": "^29.7.0"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}
