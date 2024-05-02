@@ -9,19 +9,12 @@ class Game {
  }
  async stop() {
   clearInterval(this.#googleMovingIntervalId)
-  this.#status = "stoped"
+  this.#status = "stopped"
  }
 
  #runGoogleMovingInterval() {
   this.#googleMovingIntervalId = setInterval(() => {
    this.#moveGoogle()
-   //  Position.getNotCrossedPosition(
-   //   [this.#player1.position, this.#player2.position, this.#google.position],
-   //   this.#settings.gridSize.width,
-   //   this.#settings.gridSize.height,
-   //  ),
-   // )
-   // this.#google = new Google(googlePosition)
   }, this.#settings.googleJumpInterval)
  }
 
@@ -55,8 +48,6 @@ class Game {
  }
  #checkGoogleCatching(player, delta) {
   const newPosition = player.position.clone()
-  // if (delta.x) newPosition.x += delta.x
-  // if (delta.y) newPosition.y += delta.y
 
   if (this.#google.position.equal(newPosition)) {
    clearInterval(this.#googleMovingIntervalId)
@@ -214,5 +205,3 @@ class Player extends Unit {
 module.exports = {
  Game,
 }
-
-
