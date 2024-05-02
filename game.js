@@ -3,13 +3,17 @@ class Game {
   if (this.#status === "pending") {
    this.#status = "in-process"
   }
-
   this.#createUnits()
   this.#runGoogleMovingInterval()
  }
+
  async stop() {
   clearInterval(this.#googleMovingIntervalId)
-  this.#status = "stoped"
+  this.#status = "stopped"
+ }
+ async finish() {
+  clearInterval(this.#googleMovingIntervalId)
+  this.#status = "finished"
  }
 
  #runGoogleMovingInterval() {
@@ -46,6 +50,7 @@ class Game {
   if (newPosition.y > this.#settings.gridSize.height || newPosition.y < 1) return true
   return false
  }
+
  #checkOtherPlayer(movingPlayer, otherPlayer, delta) {
   const newPosition = movingPlayer.position.clone()
   if (delta.x) newPosition.x += delta.x
@@ -53,6 +58,7 @@ class Game {
 
   return otherPlayer.position.equal(newPosition)
  }
+
  #checkGoogleCatching(player, delta) {
   const newPosition = player.position.clone()
   // if (delta.x) newPosition.x += delta.x
@@ -65,6 +71,7 @@ class Game {
    this.#runGoogleMovingInterval()
   }
  }
+
  #movePlayer(player, otherPlayer, delta) {
   const isBorder = this.#checkBorders(player, delta)
   if (isBorder) return
@@ -79,40 +86,50 @@ class Game {
 
   player.position.x += delta.x
  }
+
  movePlayer1Right() {
   const delta = { x: 1 }
   this.#movePlayer(this.#player1, this.#player2, delta)
  }
+
  movePlayer1Left() {
   const delta = { x: -1 }
   this.#movePlayer(this.#player1, this.#player2, delta)
  }
+
  movePlayer1Up() {
   const delta = { y: -1 }
   this.#movePlayer(this.#player1, this.#player2, delta)
  }
+
  movePlayer1Down() {
   const delta = { y: 1 }
   this.#movePlayer(this.#player1, this.#player2, delta)
  }
+
  //---------
  movePlayer2Right() {
   const delta = { x: 1 }
   this.#movePlayer(this.#player2, this.#player1, delta)
  }
+
  movePlayer2Left() {
   const delta = { x: -1 }
   this.#movePlayer(this.#player2, this.#player1, delta)
  }
+
  movePlayer2Up() {
   const delta = { y: -1 }
   this.#movePlayer(this.#player2, this.#player1, delta)
  }
+
  movePlayer2Down() {
   const delta = { y: 1 }
   this.#movePlayer(this.#player2, this.#player1, delta)
  }
+
  #settings = {
+  pointsToWin: 10,
   gridSize: {
    width: 4,
    height: 5,
@@ -128,26 +145,37 @@ class Game {
   2: { points: 0 },
  }
  #googleMovingIntervalId
+
  get player1() {
   return this.#player1
  }
+
  get player2() {
   return this.#player2
  }
+
  get google() {
   return this.#google
  }
+
  get status() {
   return this.#status
  }
+
  get settings() {
   return this.#settings
  }
+
  get score() {
   return this.#score
  }
+
  set settings(newSettings) {
-  this.#settings = newSettings
+  //this.#settings = newSettings
+  this.#settings = { ...this.#settings, ...newSettings }
+  this.#settings.gridSize = newSettings.gridSize
+   ? { ...this.#settings.gridSize, ...newSettings.gridSize }
+   : this.#settings.gridSize
  }
 
  #createUnits() {
@@ -167,6 +195,7 @@ class NumberUtil {
   return Math.floor(1 + Math.random() * max)
  }
 }
+
 class Position {
  constructor(obj) {
   this.x = obj.x
@@ -180,9 +209,11 @@ class Position {
   } while (coordinates.some((coord) => coord.x === x && coord.y === y))
   return { x, y }
  }
+
  clone() {
   return new Position({ x: this.x, y: this.y })
  }
+
  equal(otherPosition) {
   return otherPosition.x === this.x && otherPosition.y === this.y
  }
@@ -214,5 +245,3 @@ class Player extends Unit {
 module.exports = {
  Game,
 }
-
-

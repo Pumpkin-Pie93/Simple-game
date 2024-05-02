@@ -110,6 +110,50 @@ describe("game test", () => {
    }
   }
  })
+ it("2 catch google by player1 or player2 for one row", async () => {
+  const game = new Game()
+  game.settings = {
+   pointsToWin: 3,
+   gridSize: {
+    width: 3,
+    height: 1,
+   },
+   googleJumpInterval: 100,
+  }
+  await game.start()
+  // p1 p2 g | p1 g p2 | p2 p1 g | p2 g p1 | g p1 p2 | g p2 p1
+
+  const deltaForPlayer1 = game.google.position.x - game.player1.position.x
+
+  if (Math.abs(deltaForPlayer1) === 2) {
+   const deltaForPlayer2 = game.google.position.x - game.player2.position.x
+   if (deltaForPlayer2 > 0) {
+    game.movePlayer2Right()
+    game.movePlayer2Left()
+    game.movePlayer2Right()
+   } else {
+    game.movePlayer2Left()
+    game.movePlayer2Right()
+    game.movePlayer2Left()
+   }
+   expect(game.score[1].points).toBe(0)
+   expect(game.score[2].points).toBe(3)
+   expect(game.status).toBe("finished")
+  } else {
+   if (deltaForPlayer1 > 0) {
+    game.movePlayer1Right()
+    game.movePlayer1Left()
+    game.movePlayer1Right()
+   } else {
+    game.movePlayer1Left()
+    game.movePlayer1Right()
+    game.movePlayer1Left()
+   }
+   expect(game.score[1].points).toBe(3)
+   expect(game.score[2].points).toBe(0)
+   expect(game.status).toBe("finished")
+  }
+ })
 })
 
 const delay = (ms) => {
