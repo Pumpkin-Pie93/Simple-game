@@ -54,6 +54,7 @@ export class Game {
   console.log(this.#player1)
   console.log(this.#player2)
  } //+
+
  #moveGoogleToRandomPosition(excludeGoogle) {
   let notCrossedPosition = [this.#player1.position, this.#player2.position]
   if (!excludeGoogle) {
@@ -116,8 +117,9 @@ export class Game {
   //  this.#moveGoogle()
   //  this.#runGoogleJumpInterval()
   if (this.#google.position.equal(player.position)) {
-   this.score[player.id].points++
-   if (this.score[player.id].points === this.#settings.pointsToWin) {
+   console.log(player.playerNumber)
+   this.#score[player.playerNumber].points++
+   if (this.score[player.playerNumber].points === this.#settings.pointsToWin) {
     this.#finish()
     this.google.position = new Position(this.settings.gridSize.width + 1, this.settings.gridSize.height + 1)
     // this.#moveGoogleToRandomPosition()
