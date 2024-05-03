@@ -19,15 +19,6 @@ export class Game {
 
  //----------------------------------------------------------
 
- #createUnits() {
-  const player1Position = this.#getRandomPosition([])
-  //this.#player1 = new Player(1, player1Position)
-  this.#player1 = new Player(player1Position, 1)
-  const player2Position = this.#getRandomPosition([player1Position])
-  this.#player2 = new Player(player2Position, 2)
-  //this.#player2 = new Player(2, player2Position)
-  this.#moveGoogleToRandomPosition(true)
- } //+
  #createUnits2() {
   const maxX = this.#settings.gridSize.width
   const maxY = this.#settings.gridSize.height
@@ -49,9 +40,21 @@ export class Game {
    newX = NumberUtil.getRandomNumber(this.#settings.gridSize.width)
    newY = NumberUtil.getRandomNumber(this.#settings.gridSize.height)
   } while (coordinates.some((el) => el.x === newX && el.y === newY))
-  return new Position(newX, newY)
+  return new Position({ x: newX, y: newY })
  } //+
 
+ #createUnits() {
+  debugger
+  const player1Position = this.#getRandomPosition([])
+  //this.#player1 = new Player(1, player1Position)
+  this.#player1 = new Player(player1Position, 1)
+  const player2Position = this.#getRandomPosition([player1Position])
+  this.#player2 = new Player(player2Position, 2)
+  //this.#player2 = new Player(2, player2Position)
+  this.#moveGoogleToRandomPosition(true)
+  console.log(this.#player1)
+  console.log(this.#player2)
+ } //+
  #moveGoogleToRandomPosition(excludeGoogle) {
   let notCrossedPosition = [this.#player1.position, this.#player2.position]
   if (!excludeGoogle) {
@@ -252,7 +255,8 @@ class Position {
  static getNotCrossedPosition(coordinates, maxX, maxY) {
   let x, y
   do {
-   ;(x = NumberUtil.getRandomNumber(maxX)), (y = NumberUtil.getRandomNumber(maxY))
+   x = NumberUtil.getRandomNumber(maxX)
+   y = NumberUtil.getRandomNumber(maxY)
   } while (coordinates.some((coord) => coord.x === x && coord.y === y))
   return { x, y }
  }
