@@ -16,9 +16,14 @@ const asyncStart = async () => {
  console.log(game.player1.position)
 
  const tableElement = document.querySelector("#grid")
+ const scoreElement = document.querySelector("#score")
 
  const render = () => {
   tableElement.innerHTML = ""
+  scoreElement.innerHTML = ""
+
+  scoreElement.append(`player1: ${game.score[1].points} --- player2: ${game.score[2].points}`)
+
   for (let y = 1; y <= game.settings.gridSize.height; y++) {
    const trElement = document.createElement("tr")
    for (let x = 1; x <= game.settings.gridSize.width; x++) {
@@ -58,6 +63,18 @@ const asyncStart = async () => {
     break
    case "ArrowRight":
     game.movePlayer1Right()
+    break
+   case "KeyW":
+    game.movePlayer2Up()
+    break
+   case "KeyS":
+    game.movePlayer2Down()
+    break
+   case "KeyA":
+    game.movePlayer2Left()
+    break
+   case "KeyD":
+    game.movePlayer2Right()
     break
   }
  })

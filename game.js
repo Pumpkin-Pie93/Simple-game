@@ -44,7 +44,6 @@ export class Game {
  } //+
 
  #createUnits() {
-  debugger
   const player1Position = this.#getRandomPosition([])
   //this.#player1 = new Player(1, player1Position)
   this.#player1 = new Player(player1Position, 1)
@@ -65,7 +64,7 @@ export class Game {
  } //+
 
  #checkBorders(player, delta) {
-  //  const newPosition = player.position.clone()
+  //const newPosition = player.position.clone()
   if (delta.x) {
    return player.position.x + delta.x > this.#settings.gridSize.width || player.position.x + delta.x < 1
   }
@@ -94,12 +93,16 @@ export class Game {
  }
 
  #checkOtherPlayer(movingPlayer, otherPlayer, delta) {
-  //const newPosition = movingPlayer.position.clone()
+  const newPosition = movingPlayer.position.clone()
   if (delta.x) {
-   return movingPlayer.position.x + delta.x === otherPlayer.position.x
+   return (
+    movingPlayer.position.x + delta.x === otherPlayer.position.x && movingPlayer.position.y === otherPlayer.position.y
+   )
   }
   if (delta.y) {
-   return movingPlayer.position.y + delta.y === otherPlayer.position.y
+   return (
+    movingPlayer.position.y + delta.y === otherPlayer.position.y && movingPlayer.position.x === otherPlayer.position.x
+   )
   }
   return false
  } //+
@@ -116,6 +119,7 @@ export class Game {
    this.score[player.id].points++
    if (this.score[player.id].points === this.#settings.pointsToWin) {
     this.#finish()
+    this.google.position = new Position(this.settings.gridSize.width + 1, this.settings.gridSize.height + 1)
     // this.#moveGoogleToRandomPosition()
    } else {
     this.#moveGoogleToRandomPosition()
