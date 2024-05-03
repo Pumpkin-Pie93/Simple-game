@@ -1,29 +1,47 @@
-class Game {
+export class Game {
  start() {
   if (this.#status === "pending") {
    this.#status = "in-process"
+   this.#createUnits()
+   this.#runGoogleJumpInterval()
   }
-  this.#createUnits()
-  this.#runGoogleJumpInterval()
- }
+ } //+
 
  async stop() {
   clearInterval(this.#googleMovingIntervalId)
   this.#status = "stopped"
- }
+ } //+
 
  async #finish() {
   clearInterval(this.#googleMovingIntervalId)
   this.#status = "finished"
- }
+ } //+
+
+ //----------------------------------------------------------
 
  #createUnits() {
   const player1Position = this.#getRandomPosition([])
-  this.#player1 = new Player(1, player1Position)
+  //this.#player1 = new Player(1, player1Position)
+  this.#player1 = new Player(player1Position, 1)
   const player2Position = this.#getRandomPosition([player1Position])
-  this.#player2 = new Player(2, player2Position)
+  this.#player2 = new Player(player2Position, 2)
+  //this.#player2 = new Player(2, player2Position)
   this.#moveGoogleToRandomPosition(true)
+ } //+
+ #createUnits2() {
+  const maxX = this.#settings.gridSize.width
+  const maxY = this.#settings.gridSize.height
+  const player1Position = new Position(Position.getNotCrossedPosition([], maxX, maxY))
+  this.#player1 = new Player(player1Position, 1)
+  const player2Position = new Position(Position.getNotCrossedPosition([player1Position], maxX, maxY))
+  this.#player2 = new Player(player2Position, 2)
+  const googlePosition = new Position(Position.getNotCrossedPosition([player1Position, player2Position], maxX, maxY))
+  this.#google = new Google(googlePosition)
  }
+
+ constructor(eventEmitter) {
+  this.eventEmitter = eventEmitter
+ } //+
 
  #getRandomPosition(coordinates) {
   let newX, newY
@@ -32,7 +50,7 @@ class Game {
    newY = NumberUtil.getRandomNumber(this.#settings.gridSize.height)
   } while (coordinates.some((el) => el.x === newX && el.y === newY))
   return new Position(newX, newY)
- }
+ } //+
 
  #moveGoogleToRandomPosition(excludeGoogle) {
   let notCrossedPosition = [this.#player1.position, this.#player2.position]
@@ -40,26 +58,25 @@ class Game {
    notCrossedPosition.push(this.#google.position)
   }
   this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
- }
+  this.eventEmitter.emit("unitChangePosition")
+ } //+
 
  #checkBorders(player, delta) {
-//  const newPosition = player.position.clone()
+  //  const newPosition = player.position.clone()
   if (delta.x) {
-   return (player.position.x + delta.x > this.#settings.gridSize.width ||
-   player.position.x + delta.x < 1
-   ) }
-   if (delta.y) {
-   return (player.position.y + delta.y > this.#settings.gridSize.height ||
-   player.position.y + delta.y < 1
-   ) }
-   return false
- }
+   return player.position.x + delta.x > this.#settings.gridSize.width || player.position.x + delta.x < 1
+  }
+  if (delta.y) {
+   return player.position.y + delta.y > this.#settings.gridSize.height || player.position.y + delta.y < 1
+  }
+  return false
+ } //+
 
  #runGoogleJumpInterval() {
   this.#googleMovingIntervalId = setInterval(() => {
    this.#moveGoogleToRandomPosition()
   }, this.#settings.googleJumpInterval)
- }
+ } //+
 
  #moveGoogle() {
   const googlePosition = new Position(
@@ -82,7 +99,7 @@ class Game {
    return movingPlayer.position.y + delta.y === otherPlayer.position.y
   }
   return false
- }
+ } //+
 
  #checkGoogleCatching(player) {
   // const newPosition = player.position.clone()
@@ -101,7 +118,7 @@ class Game {
     this.#moveGoogleToRandomPosition()
    }
   }
- }
+ } //+
 
  #movePlayer(movingPlayer, otherPlayer, delta) {
   const isBorder = this.#checkBorders(movingPlayer, delta)
@@ -118,9 +135,11 @@ class Game {
   }
 
   this.#checkGoogleCatching(movingPlayer)
-   //eventEmitter.emit('unitChangePosition')
+  this.eventEmitter.emit("unitChangePosition")
   // player.position.x += delta.x
- }
+ } //+
+
+ //-------------------------------------------------------------------
 
  movePlayer1Right() {
   const delta = { x: 1 }
@@ -164,6 +183,8 @@ class Game {
   this.#movePlayer(this.#player2, this.#player1, delta)
  }
 
+ //-----------------------------------------------------------------
+
  #settings = {
   pointsToWin: 10,
   gridSize: {
@@ -181,6 +202,8 @@ class Game {
   2: { points: 0 },
  }
  #googleMovingIntervalId
+
+ //--------------------------------------------------------------------
 
  get player1() {
   return this.#player1
@@ -213,19 +236,7 @@ class Game {
    ? { ...this.#settings.gridSize, ...newSettings.gridSize }
    : this.#settings.gridSize
  }
-
- #createUnits() {
-  const maxX = this.#settings.gridSize.width
-  const maxY = this.#settings.gridSize.height
-  const player1Position = new Position(Position.getNotCrossedPosition([], maxX, maxY))
-  this.#player1 = new Player(player1Position, 1)
-  const player2Position = new Position(Position.getNotCrossedPosition([player1Position], maxX, maxY))
-  this.#player2 = new Player(player2Position, 2)
-  const googlePosition = new Position(Position.getNotCrossedPosition([player1Position, player2Position], maxX, maxY))
-  this.#google = new Google(googlePosition)
- }
 }
-
 class NumberUtil {
  static getRandomNumber(max) {
   return Math.floor(1 + Math.random() * max)
@@ -278,6 +289,6 @@ class Player extends Unit {
  }
 }
 
-module.exports = {
- Game,
-}
+// module.exports = {
+//  Game,
+// } // export for tests

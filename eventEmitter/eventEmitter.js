@@ -15,8 +15,8 @@ export class EventEmitter {
   this.#subscribers[eventName].push(callback)
   return () => (this.#subscribers[eventName] = this.#subscribers[eventName].filter((cb) => callback !== cb))
  }
- emit(eventName) {
-  this.#subscribers[eventName].forEach((cb) => cb())
+ emit(eventName, data = null) {
+  this.#subscribers[eventName]?.forEach((cb) => cb(data))
  }
  off(eventName, callback) {
   this.#subscribers[eventName] = this.#subscribers[eventName].filter((cb) => callback !== cb)
