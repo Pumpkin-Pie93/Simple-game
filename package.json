@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "ws": "^8.17.0"
   },
   "devDependencies": {
     "prettier": "3.2.5"

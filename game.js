@@ -5,17 +5,17 @@ export class Game {
    this.#createUnits()
    this.#runGoogleJumpInterval()
   }
- } //+
+ }
 
  async stop() {
   clearInterval(this.#googleMovingIntervalId)
   this.#status = "stopped"
- } //+
+ }
 
  async #finish() {
   clearInterval(this.#googleMovingIntervalId)
   this.#status = "finished"
- } //+
+ }
 
  //----------------------------------------------------------
 
@@ -32,7 +32,7 @@ export class Game {
 
  constructor(eventEmitter) {
   this.eventEmitter = eventEmitter
- } //+
+ }
 
  #getRandomPosition(coordinates) {
   let newX, newY
@@ -41,7 +41,7 @@ export class Game {
    newY = NumberUtil.getRandomNumber(this.#settings.gridSize.height)
   } while (coordinates.some((el) => el.x === newX && el.y === newY))
   return new Position({ x: newX, y: newY })
- } //+
+ }
 
  #createUnits() {
   const player1Position = this.#getRandomPosition([])
@@ -53,7 +53,7 @@ export class Game {
   this.#moveGoogleToRandomPosition(true)
   console.log(this.#player1)
   console.log(this.#player2)
- } //+
+ }
  #moveGoogleToRandomPosition(excludeGoogle) {
   let notCrossedPosition = [this.#player1.position, this.#player2.position]
   if (!excludeGoogle) {
@@ -61,7 +61,7 @@ export class Game {
   }
   this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
   this.eventEmitter.emit("unitChangePosition")
- } //+
+ }
 
  #checkBorders(player, delta) {
   //const newPosition = player.position.clone()
@@ -72,13 +72,13 @@ export class Game {
    return player.position.y + delta.y > this.#settings.gridSize.height || player.position.y + delta.y < 1
   }
   return false
- } //+
+ }
 
  #runGoogleJumpInterval() {
   this.#googleMovingIntervalId = setInterval(() => {
    this.#moveGoogleToRandomPosition()
   }, this.#settings.googleJumpInterval)
- } //+
+ }
 
  #moveGoogle() {
   const googlePosition = new Position(
@@ -105,7 +105,7 @@ export class Game {
    )
   }
   return false
- } //+
+ }
 
  #checkGoogleCatching(player) {
   // const newPosition = player.position.clone()
@@ -125,7 +125,7 @@ export class Game {
     this.#moveGoogleToRandomPosition()
    }
   }
- } //+
+ }
 
  #movePlayer(movingPlayer, otherPlayer, delta) {
   const isBorder = this.#checkBorders(movingPlayer, delta)
@@ -144,7 +144,7 @@ export class Game {
   this.#checkGoogleCatching(movingPlayer)
   this.eventEmitter.emit("unitChangePosition")
   // player.position.x += delta.x
- } //+
+ }
 
  //-------------------------------------------------------------------
 

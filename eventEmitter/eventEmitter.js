@@ -1,3 +1,4 @@
+// Publisher subscriber --> Observer (Listener/Subscriber/Handler) (Subject/Emitter/Publisher/Observable)
 export class EventEmitter {
  #subscribers = {
   // eventName: [callback, callback...]
