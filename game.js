@@ -212,31 +212,35 @@ export class Game {
 
  //--------------------------------------------------------------------
 
- get player1() {
+ async getPlayer1() {
   return this.#player1
  }
 
- get player2() {
+ async getPlayer2() {
   return this.#player2
  }
 
- get google() {
+ async getGoogle() {
   return this.#google
  }
 
- get status() {
+ async getStatus() {
   return this.#status
  }
 
- get settings() {
+ async getSettings() {
   return this.#settings
  }
 
- get score() {
+ async getScore() {
   return this.#score
  }
 
- set settings(newSettings) {
+ async setScore(newScore) {
+  this.#score = newScore
+ }
+
+ async setSettings(newSettings) {
   //this.#settings = newSettings
   this.#settings = { ...this.#settings, ...newSettings }
   this.#settings.gridSize = newSettings.gridSize
@@ -244,6 +248,7 @@ export class Game {
    : this.#settings.gridSize
  }
 }
+
 class NumberUtil {
  static getRandomNumber(max) {
   return Math.floor(1 + Math.random() * max)

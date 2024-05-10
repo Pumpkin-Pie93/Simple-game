@@ -1,14 +1,21 @@
 import { WebSocketServer } from "ws"
+import { EventEmitter } from "../eventEmitter/eventEmitter.js"
+import { Game } from "../game.js"
+
+const eventEmitter = new EventEmitter()
+const game = new Game(eventEmitter)
+game.start()
 
 const wssServer = new WebSocketServer({ port: 3001 })
 
-wssServer.on("connection", function connection(tunnel) {
- tunnel.on("error", console.error)
+wssServer.on("connection", function connection(ws) {
+ ws.on("error", console.error)
 
- tunnel.on("message", function message(data) {
+ ws.send(JSON.stringify(game.settings))
+
+ ws.on("message", function message(data) {
   console.log("received: %s", data)
-  tunnel.send("hello from server")
  })
 
- //tunnel.send('something');
+ //ws.send('something');
 })

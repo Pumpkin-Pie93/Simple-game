@@ -1,4 +1,4 @@
-const ws = new WebSocket("ws://localhost:3001")
+//const ws = new WebSocket("ws://localhost:3001")
 
 export class GameRemoteProxy {
  ws = null
@@ -11,7 +11,7 @@ export class GameRemoteProxy {
  start() {}
 
  async stop() {}
-
+ //----------------------------Player 1 moving------------------------------
  movePlayer1Right() {}
 
  movePlayer1Left() {}
@@ -22,7 +22,7 @@ export class GameRemoteProxy {
 
  movePlayer1Down() {}
 
- //----------------------------------------------------------------
+ //---------------------------Player 2 moving------------------------------
 
  movePlayer2Right() {}
 
@@ -32,25 +32,25 @@ export class GameRemoteProxy {
 
  movePlayer2Down() {}
 
- //--------------------------------------------------
+ //-------------------------Get/Set----------------------------------------
 
- get player1() {
+ async getPlayer1() {
   return { x: 1, y: 3 }
  }
 
- get player2() {}
+ async getPlayer2() {}
 
- get google() {}
+ async getGoogle() {}
 
- get status() {}
+ async getStatus() {}
 
- get settings() {
+ async getSettings() {
   return { gridSize: { width: 6, height: 5 } }
  }
+ async setSettings(newSettings) {}
 
- get score() {
+ async getScore() {
   return { 1: { points: 10 }, 2: { points: 6 } }
  }
-
- set settings(newSettings) {}
+ async setScore(newScore) {}
 }
