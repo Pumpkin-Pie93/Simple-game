@@ -41,7 +41,7 @@ export class Game {
    newY = NumberUtil.getRandomNumber(this.#settings.gridSize.height)
   } while (coordinates.some((el) => el.x === newX && el.y === newY))
   return new Position({ x: newX, y: newY })
- }
+ } //+
 
  #createUnits() {
   const player1Position = this.#getRandomPosition([])
@@ -116,8 +116,9 @@ export class Game {
   //  this.#moveGoogle()
   //  this.#runGoogleJumpInterval()
   if (this.#google.position.equal(player.position)) {
-   this.score[player.id].points++
-   if (this.score[player.id].points === this.#settings.pointsToWin) {
+   console.log(player.playerNumber)
+   this.#score[player.playerNumber].points++
+   if (this.score[player.playerNumber].points === this.#settings.pointsToWin) {
     this.#finish()
     this.google.position = new Position(this.settings.gridSize.width + 1, this.settings.gridSize.height + 1)
     // this.#moveGoogleToRandomPosition()
