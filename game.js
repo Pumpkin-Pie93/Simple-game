@@ -60,7 +60,7 @@ export class Game {
    notCrossedPosition.push(this.#google.position)
   }
   this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
-  this.eventEmitter.emit("unitChangePosition")
+  this.eventEmitter.emit("unitPositionChanged")
  }
 
  #checkBorders(player, delta) {
@@ -116,14 +116,19 @@ export class Game {
   //  this.#moveGoogle()
   //  this.#runGoogleJumpInterval()
   if (this.#google.position.equal(player.position)) {
-   console.log(player.playerNumber)
    this.#score[player.playerNumber].points++
-   if (this.score[player.playerNumber].points === this.#settings.pointsToWin) {
+   if (this.#score[player.playerNumber].points === this.#settings.pointsToWin) {
     this.#finish()
-    this.google.position = new Position(this.settings.gridSize.width + 1, this.settings.gridSize.height + 1)
+    this.#google.position = new Position({ x: -1, y: -1 })
+    // this.google.position = new Position(
+    //     this.#settings.gridSize.width + 1,
+    //     this.#settings.gridSize.height + 1
+    // )
     // this.#moveGoogleToRandomPosition()
    } else {
+    clearInterval(this.#googleMovingIntervalId)
     this.#moveGoogleToRandomPosition()
+    this.#runGoogleJumpInterval()
    }
   }
  }
@@ -143,7 +148,7 @@ export class Game {
   }
 
   this.#checkGoogleCatching(movingPlayer)
-  this.eventEmitter.emit("unitChangePosition")
+  this.eventEmitter.emit("unitPositionChanged")
   // player.position.x += delta.x
  }
 

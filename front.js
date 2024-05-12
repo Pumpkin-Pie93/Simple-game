@@ -17,15 +17,37 @@ const asyncStart = async () => {
  const tableElement = document.querySelector("#grid")
  const scoreElement = document.querySelector("#score")
 
- const render = async () => {
+ let renderCounter = 0
+
+ const render = async (counter) => {
   tableElement.innerHTML = ""
   scoreElement.innerHTML = ""
 
-  const score = await game.getScore()
   const settings = await game.getSettings()
+  if (counter < renderCounter) {
+   console.log("Break")
+   return
+  }
+  const score = await game.getScore()
+  if (counter < renderCounter) {
+   console.log("Break")
+   return
+  }
   const google = await game.getGoogle()
+  if (counter < renderCounter) {
+   console.log("Break")
+   return
+  }
   const player1 = await game.getPlayer1()
+  if (counter < renderCounter) {
+   console.log("Break")
+   return
+  }
   const player2 = await game.getPlayer2()
+  if (counter < renderCounter) {
+   console.log("Break")
+   return
+  }
 
   scoreElement.append(`player1: ${score[1].points} --- player2: ${score[2].points}`)
 
@@ -84,11 +106,12 @@ const asyncStart = async () => {
   }
  })
 
- game.eventEmitter.on("unitChangePosition", () => {
-  render()
+ game.eventEmitter.on("unitPositionChanged", () => {
+  renderCounter++
+  render(renderCounter)
  })
 
- render()
+ render(renderCounter)
 }
 
 asyncStart()
