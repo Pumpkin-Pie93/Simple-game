@@ -1,0 +1,120 @@
+body {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    /*outline: 5px solid #59f402;*/
+    background-image: url('assets/wallpaper.jpg'); /* Путь к вашему фоновому изображению */
+    background-size: cover; /* Растягивает изображение на весь экран */
+    background-position: center; /* Центрирует изображение */
+    background-repeat: no-repeat; /* Запрещает повторение изображения */
+    background-color: #f2f2f2; /* Цвет фона, если изображение не загружено */
+}
+
+#gameBody {
+    text-align: center;
+    flex-direction: column;
+    background-color: #f2f2f2; /* Цвет фона, если изображение не загружено */
+    border: 5px solid #654c7c;
+
+}
+
+#game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 15px ridge #cb98ff;
+    border-radius: 10px;
+    position: relative;
+
+}
+
+#score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 15px ridge #cb98ff;
+    border-radius: 10px;
+    color: #cb98ff;
+    padding: 5px;
+    margin-left: 5px;
+    background-color: #654c7c;
+    font-weight: bold;
+    font-family: "Roboto Light", sans-serif;
+    width: 80px;
+    height: calc(100% - 10px);;
+    position: absolute;
+    transform: translate(-220px, 2px);
+}
+
+#buttonWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: calc(100% - 10px);
+    border: 15px ridge #cb98ff;
+    border-radius: 10px;
+    position: absolute;
+    transform: translate(0px, -225px);
+    background-color: #654c7c;
+    padding: 8px;
+}
+
+#buttonWrapper > button {
+    color: #cb98ff;
+    background-color: #654c7c;
+    font-weight: bold;
+    font-family: "Roboto Light", sans-serif;
+    border: 1px solid #cb98ff;
+    border-radius: 14px;
+    padding: 4px;
+}
+
+#buttonWrapper > button:hover {
+    cursor: pointer;
+    color: #cb98ff;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 0 4px 2px #c69eef, 0 1px 9px 3px #654c7c;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}
+
+#logo {
+    width: 140px;
+    height: 140px;
+    /*border: 4px solid red;*/
+    position: absolute;
+    /*transform: translate(-152px, -302px);*/
+    animation: moveUp 2s infinite alternate; /* Анимация длится 5 секунд, повторяется бесконечно и чередует направление */
+
+}
+
+table {
+    /*border: 5px solid #02fdd8;*/
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+td {
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
+    background-color: #654c7c;
+}
+
+@keyframes moveUp {
+    0% {
+        transform: translate(-152px,-302px);
+    }
+    100% {
+        transform: translate(-152px,-315px);
+    }
+}

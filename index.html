@@ -4,41 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
-    <style>
-        img {
-            width: 50px;
-            height: 50px;
-        }
-        table {
-            border: 1px solid black;
-        }
-        td {
-            width: 60px;
-            height: 60px;
-            border: 1px solid black;
-        }
-
-    </style>
+    <link rel="stylesheet" href="./index.css">
 </head>
-<body>
-<div id="score"></div>
-<table id="grid">
-<!--    <tr>-->
-<!--        <td><img src="./assets/player1.svg"/></td>-->
-<!--        <td><img src="./assets/player2.svg"/></td>-->
-<!--        <td><img src="./assets/google.svg"/></td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--    </tr>-->
-</table>
+<body id="gameBody">
+
+<div id="game">
+    <div>
+        <img  id="logo" src="assets/gamepad.svg">
+    </div>
+    <div id="buttonWrapper">
+        <button>New Game</button>
+        <button>Game settings</button>
+    </div>
+    <div id="score"></div>
+    <table id="grid">
+    </table>
+</div>
 <script type="module" src="front.js"/>
 </body>
 </html>
